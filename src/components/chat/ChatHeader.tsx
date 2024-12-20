@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Settings, User, CheckCircle, XCircle } from "lucide-react";
+import { Settings, User, CheckCircle, XCircle, Moon, Sun } from "lucide-react";
 
 interface ModelStatus {
   model: string;
@@ -19,6 +19,8 @@ interface ChatHeaderProps {
   avatarUrl?: string;
   modelStatuses?: ModelStatus[];
   onSettingsClick?: () => void;
+  darkMode?: boolean;
+  onDarkModeToggle?: () => void;
 }
 
 const defaultModelStatuses: ModelStatus[] = [
@@ -32,6 +34,8 @@ const ChatHeader = ({
   avatarUrl = "https://api.dicebear.com/7.x/avataaars/svg?seed=default",
   modelStatuses = defaultModelStatuses,
   onSettingsClick = () => {},
+  darkMode = false,
+  onDarkModeToggle = () => {},
 }: ChatHeaderProps) => {
   return (
     <header className="w-full h-16 border-b bg-background px-4 flex items-center justify-between">
@@ -54,6 +58,19 @@ const ChatHeader = ({
       </div>
 
       <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={onDarkModeToggle}
+          className="h-8 w-8"
+        >
+          {darkMode ? (
+            <Sun className="h-4 w-4" />
+          ) : (
+            <Moon className="h-4 w-4" />
+          )}
+        </Button>
+
         <Button
           variant="ghost"
           size="icon"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ChatHeader from "./chat/ChatHeader";
 import ModelSidebar from "./chat/ModelSidebar";
 import ChatWindow from "./chat/ChatWindow";
@@ -21,9 +21,34 @@ const Home = ({
   onFileClear = () => {},
   onSettingsClick = () => {},
 }: HomeProps) => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check system preference
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
+      setDarkMode(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Apply dark mode class to document
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <ChatHeader onSettingsClick={onSettingsClick} />
+      <ChatHeader
+        onSettingsClick={onSettingsClick}
+        darkMode={darkMode}
+        onDarkModeToggle={() => setDarkMode(!darkMode)}
+      />
       <div className="flex flex-1 overflow-hidden">
         <ModelSidebar
           onModelSelect={onModelSelect}
